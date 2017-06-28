@@ -1,11 +1,13 @@
-// import and create express object
 const express = require('express');
-// routes is a function that we import
 const routes = require('./routes/routes');
-// create app object
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 const app = express();
 
-// call imported routes function passing in the app object
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://localhost/ride-share');
+
+app.use(bodyParser.json());
 routes(app);
 
 module.exports = app;

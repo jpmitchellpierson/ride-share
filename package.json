@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/jpmitchellpierson/ride-share#readme",
   "dependencies": {
+    "body-parser": "^1.17.2",
     "express": "^4.15.3",
     "mocha": "^3.4.2",
     "mongoose": "^4.11.0",
