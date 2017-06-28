@@ -1,11 +1,11 @@
 // import and create express object
 const express = require('express');
+// routes is a function that we import
+const routes = require('./routes/routes');
+// create app object
 const app = express();
 
-// Watch for incoming requests of method GET 
-// to the route http://localhost:3050/api
-app.get('/api', (req, res) => {
-  res.send({ hi: 'there' });
-});
+// call imported routes function passing in the app object
+routes(app);
 
 module.exports = app;
