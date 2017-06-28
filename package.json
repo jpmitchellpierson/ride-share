@@ -1,0 +1,25 @@
+{
+  "name": "ride-share",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "nodemon --exec 'mocha --recursive -R min'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jpmitchellpierson/ride-share.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jpmitchellpierson/ride-share/issues"
+  },
+  "homepage": "https://github.com/jpmitchellpierson/ride-share#readme",
+  "dependencies": {
+    "express": "^4.15.3",
+    "mocha": "^3.4.2",
+    "mongoose": "^4.11.0",
+    "supertest": "^3.0.0"
+  }
+}
