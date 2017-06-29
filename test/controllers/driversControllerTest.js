@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const Driver = mongoose.model('driver');
 
 describe('drivers controller', () => {
-  it('post to api/drivers creates a new driver', done => {
+  it('POST to api/drivers creates a new driver', done => {
     // take the initial count of all drivers
     Driver.count().then(count => {
       // make request
@@ -22,5 +22,28 @@ describe('drivers controller', () => {
         });
       });
     }); 
+  });
+
+  it('PUT to api/drivers/:id edits an existing driver', done => {
+    // create new driver with email not driving
+    const driver = new Driver({ email: 'test@test.com', driving: false });
+
+    driver.save().then(() => {
+      // make a request to find driver with created driver's id
+      request(app)
+        .put(`/api/drivers/${driver._id}`)
+        // change drivers driving status to true
+        .send({ driving: true })
+        .end(() => {
+          // check if the driver was updated
+          // find driver with email matching created driver
+          Driver.findOne({ email: 'test@test.com' })
+            // assert that driving status equals true
+            .then(driver => {
+              assert(driver.driving === true);
+              done();
+            });
+        });
+    });
   });
 });

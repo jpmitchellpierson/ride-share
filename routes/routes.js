@@ -7,4 +7,5 @@ module.exports = (app) => {
 
   // when request to drivers route is made, run create function
   app.post('/api/drivers', DriversController.create);
+  app.put('api/drivers/:id', DriversController.edit);
 };
