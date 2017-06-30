@@ -12,6 +12,10 @@ before(done => {
 beforeEach(done => {
   const { drivers } = mongoose.connection.collections;
   drivers.drop()
+    // need below .then() b/c every before each test we drop the collection
+    // along with all the indeces which are never recreated
+    // below ensures there is always an index
+    .then(() => drivers.ensureIndex({ 'geometry.coordinates': '2dsphere' }))
     .then(() => done())
     .catch(() => done());
 });

@@ -42,14 +42,15 @@ describe('drivers controller', () => {
             .then(driver => {
               assert(driver.driving === true);
               done();
-            });
+            })
+            .catch(err => done(err));
         });
     });
   });
 
 
   // pretty much same as edit
-  it('DELETE to api/driver/:id deletes a driver', done => {
+  it('DELETE to api/drivers/:id deletes a driver', done => {
     const driver = new Driver({ email: 'test@test.com' });
 
     driver.save().then(() => {
@@ -60,8 +61,40 @@ describe('drivers controller', () => {
             .then(driver => {
               assert(driver === null);
               done();
-            });
+            })
+            .catch(err => done(err));
         });
     })
+  });
+
+  it('GET to api/drivers finds drivers in a location', done => {
+    // create multiple drivers to find driver
+    const seattleDriver = new Driver({
+      email: 'seattle@test.com',
+      geometry: {
+        type: 'Point',
+        coordinates: [-122.475, 47.614]
+      }
+    });
+    const miamiDriver = new Driver({
+      email: 'miami@test.com',
+      geometry: {
+        type: 'Point',
+        coordinates: [-80.253, 25.791]
+      }
+    });
+
+    // save both drivers in db
+    Promise.all([ seattleDriver.save(), miamiDriver.save() ])
+      .then(() => {
+        request(app)
+          // add query string of desired location to route
+          .get('/api/drivers?lng=-80&lat=25')
+          .end((err, response) => {
+            assert(response.body.length === 1);
+            assert(response.body[0].object.email === 'miami@test.com');
+            done();
+          });
+      });
   });
 });
